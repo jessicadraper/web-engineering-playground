@@ -2,7 +2,7 @@
 
 const PLACEHOLDER_IMAGE = '/media/bear-placeholder.jpg';
 
-const baseUrl = "https://test.en.wikipedia.org/w/api.php";
+const baseUrl = "https://en.wikipedia.org/w/api.php";
 const title = "List_of_ursids";
 
 const params = {

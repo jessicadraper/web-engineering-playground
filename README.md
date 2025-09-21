@@ -58,12 +58,78 @@ Fix application code and answer the questions:
 
 > **What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
 > 
-> _Present your findings here..._
+> 1. Javascript code was embedded entirely within the index.html page with no separation of concerns. Different functionalities of the web page were defined within the same scope making it hard to read and maintain (e.g. "spaghetti code"). Having so many global variables declared can cause errors and conflicts later on as code is added or changed. Moving different functionalities into their own JS modules helped to untangle what was going on and encapsulate the primary functions:
 >
-> ```js
-> console.log('Make use of markdown codesnippets to show and explain good/bad practices!')
 > ```
-
+> js/
+>- modules/
+>-- comments.js
+>-- search.js
+>-- wikibear.js
+>- main.js
+> ```
+> 2. The code used `var` to declare variables instead of `const` and `let`. It is better practice to use `const`/`let` since they are block-scoped which typically helps in reducing errors or unintended consequences.
+> 3. Promise chaining was present when handling the asynchronous fetching of bear data from Wikipedia. Refactoring to use `async/await` helped make things more readable and less verbose.
+>```javascript
+>const getAndPrintBears = async (params) => {
+>        try {
+>            const url = baseUrl + "?" + new URLSearchParams(params).toString();
+>            const res = await fetch(url);
+>            if (!res.ok) throw new Error("Failed to fetch bear data from Wikipedia")
+>
+>           const data = await res.json()
+>            const wikitext = data?.parse?.wikitext?.['*'];
+>            if (!wikitext) throw new Error("Issue with returned format of bear data")
+>
+>            console.log("Getting bears...");
+>            const bears = await extractBears(wikitext);
+>
+>            console.log("Bears loaded!");
+>            printBears(bears)
+>        } catch (error) {
+>            console.error("Error loading bears: ", error)
+>            printBears([])
+>        }
+>    }
+>
+>    await getAndPrintBears(params)
+>```
+> 4. Lack of data validation or error handling was also an issue throughout the code. Form validation was added to the comments module, including escaping characters that could pose risks for HTML injection attacks. `try/catch` blocks were added around data fetching functions and data elements were checked for existence before continuing. These changes allow for a less buggy experience with more clear information to the user if something goes wrong.
+>```javascript
+> // Validate name and comment text have been provided
+> if (!nameValue || !commentValue) {
+>     if (message) {
+>       message.textContent = "All fields required";
+>       message.className = "error"
+>     }
+>     return
+> }
+>```
+>```javascript
+> // Fetch url and check if broken/available; otherwise placeholder
+> try {
+>    const fetchedImageUrl = await fetchImageUrl(fileName);
+>    imageUrl = await checkImageAvailability(fetchedImageUrl);
+> } catch (error) {
+>    imageUrl = PLACEHOLDER_IMAGE; // placeholder image if fetch or check fails
+> }
+>```
+> 5. Hard-coding functionality based on text strings from the HTML content is dangerous as functions will break as soon as there are content changes. For instance, toggling content based on a class is better than relying on an initial string value from the HTML.
+>```javascript
+>const isVisible = commentWrapper.classList.toggle('visible');
+>showHideBtn.textContent = isVisible ? 'Hide comments' : 'Show comments';
+>commentWrapper.style.display = isVisible ? 'block' : 'none';
+>```
+> 6. Directly changing the DOM content during a traversal (e.g. using `apply`) is a bad practice as it can lead to erroneous results. In this case, the search highlighter was unable to completely search all children within `<article>`. Creating a `DocumentFragment` with the highlight class wrapper and replacing the node content with this fragment of multiple elements all at once is a safer approach.
+>```javascript
+>  const span = document.createElement('span');
+>  span.innerHTML = node.nodeValue.replace(regex, '<mark class="highlight">$1</mark>');
+>
+>  // create fragment from span for replacing content safely using static array
+>  const fragment = document.createDocumentFragment();
+>  Array.from(span.childNodes).forEach( child => fragment.appendChild(child))
+>  node.parentNode.replaceChild(fragment, node);
+>```
 
 ## 2. Dependency- and Build Management Playground
 Build the application with ``npm`` and a build and a dependency management tool of your choice (e.g. [Vite](https://vitejs.dev/), [Webpack](https://webpack.js.org/), or others). Additionally, refactor the comments section to be a web component using shadow dom and templates.
