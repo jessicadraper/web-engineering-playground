@@ -1,58 +1,80 @@
 // comments.js
 
-function toggleComments() {
+const toggleComments = () => {
     // Show/hide comments toggle
-    var showHideBtn = document.querySelector('.show-hide');
-    var commentWrapper = document.querySelector('.comment-wrapper');
+    const showHideBtn = document.querySelector('.show-hide');
+    const commentWrapper = document.querySelector('.comment-wrapper');
+    if (!showHideBtn || !commentWrapper) return;
 
     commentWrapper.style.display = 'none';
 
-    showHideBtn.onclick = function() {
-        var showHideText = showHideBtn.textContent;
-        if (showHideText === 'Show comments') { 
-            showHideBtn.textContent = 'Hide comments';
-            commentWrapper.style.display = 'block';
-        } else {
-            showHideBtn.textContent = 'Show comments';
-            commentWrapper.style.display = 'none';
-        }
+    showHideBtn.onclick = () => {
+        const isVisible = commentWrapper.classList.toggle('visible');
+        showHideBtn.textContent = isVisible ? 'Hide comments' : 'Show comments';
+        commentWrapper.style.display = isVisible ? 'block' : 'none';
     };
 }
 
-function commentForm() {
+const commentForm = () => {
 
       // Comment form stuff
-      var form = document.querySelector('.comment-form');
-      var nameField = document.querySelector('#name');
-      var commentField = document.querySelector('#comment');
-      var list = document.querySelector('.comment-container');
+      const form = document.querySelector('.comment-form');
+      const nameField = document.querySelector('#name');
+      const commentField = document.querySelector('#comment');
+      const list = document.querySelector('.comment-container');
+      const message = document.querySelector('#submitMessage');
 
-      form.onsubmit = function(e) {
+      if (!form || !nameField || !commentField || !list) {
+        console.warn("Comment form elements missing")
+        return;
+      }
+
+      form.onsubmit = (e) => {
         e.preventDefault();
 
-        var listItem = document.createElement('li');
-        var namePara = document.createElement('p');
-        var commentPara = document.createElement('p');
-        var nameValue = nameField.value;
-        var commentValue = commentField.value;
+        const listItem = document.createElement('li');
+        const namePara = document.createElement('p');
+        const commentPara = document.createElement('p');
 
-        if (nameValue.trim() == "" || commentValue.trim() == "") {
-            alert("Name and comment are both required");
+        const nameValue = nameField.value.trim();
+        const commentValue = commentField.value.trim();
+
+        if (!nameValue || !commentValue) {
+            if (message) {
+                message.textContent = "All fields required";
+                message.className = "error"
+            }
             return
         }
 
-        namePara.textContent = nameValue;
-        commentPara.textContent = commentValue;
-
-        console.log(nameValue);
+        // escape form inputs to prevent HTML injections
+        namePara.textContent = escapeHTML(nameValue);
+        commentPara.textContent = escapeHTML(commentValue);
 
         list.appendChild(listItem);
         listItem.appendChild(namePara);
         listItem.appendChild(commentPara);
 
+        message.textContent = "Comment posted!";
+        message.className = "success"
+
         nameField.value = '';
         commentField.value = '';
       };
+}
+
+const escapeHTML = (str) => {
+  return str
+  .replace(/[&<>"']/g, (char) => {
+    const escapeChars = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    };
+    return escapeChars[char];
+  });
 }
 
 export {toggleComments, commentForm}

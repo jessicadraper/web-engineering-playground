@@ -248,3 +248,15 @@ audio {
 .comment-container li p:nth-child(2) {
   flex: 5;
 }
+
+.comment-form #submitMessage {
+  text-align: center;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}
