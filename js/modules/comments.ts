@@ -1,79 +1,80 @@
 // comments.js
 
 const toggleComments = () => {
-    // Show/hide comments toggle
-    const showHideBtn = document.querySelector('.show-hide');
-    const commentWrapper = document.querySelector('.comment-wrapper');
-    if (!(showHideBtn instanceof HTMLElement) || !(commentWrapper instanceof HTMLElement)) return;
+  // Show/hide comments toggle
+  const showHideBtn = document.querySelector('.show-hide');
+  const commentWrapper = document.querySelector('.comment-wrapper');
+  if (
+    !(showHideBtn instanceof HTMLElement) ||
+    !(commentWrapper instanceof HTMLElement)
+  )
+    return;
 
-    commentWrapper.style.display = 'none';
+  commentWrapper.style.display = 'none';
 
-    showHideBtn.onclick = () => {
-        const isVisible = commentWrapper.classList.toggle('visible');
-        showHideBtn.textContent = isVisible ? 'Hide comments' : 'Show comments';
-        commentWrapper.style.display = isVisible ? 'block' : 'none';
-    };
-}
+  showHideBtn.onclick = () => {
+    const isVisible = commentWrapper.classList.toggle('visible');
+    showHideBtn.textContent = isVisible ? 'Hide comments' : 'Show comments';
+    commentWrapper.style.display = isVisible ? 'block' : 'none';
+  };
+};
 
 const commentForm = () => {
+  // Comment form stuff
+  const form = document.querySelector('.comment-form');
+  const nameField = document.querySelector('#name');
+  const commentField = document.querySelector('#comment');
+  const list = document.querySelector('.comment-container');
+  const message = document.querySelector('#submitMessage');
 
-      // Comment form stuff
-      const form = document.querySelector('.comment-form');
-      const nameField = document.querySelector('#name');
-      const commentField = document.querySelector('#comment');
-      const list = document.querySelector('.comment-container');
-      const message = document.querySelector('#submitMessage');
+  if (
+    !(form instanceof HTMLElement) ||
+    !(nameField instanceof HTMLInputElement) ||
+    !(commentField instanceof HTMLInputElement) ||
+    !(list instanceof HTMLElement)
+  ) {
+    console.warn('Comment form elements missing');
+    return;
+  }
 
-      if (
-        !(form instanceof HTMLElement) ||
-        !(nameField instanceof HTMLInputElement) ||
-        !(commentField instanceof HTMLInputElement) ||
-        !(list instanceof HTMLElement)
-        )
-        {
-          console.warn("Comment form elements missing")
-          return;
-        }
+  form.onsubmit = (e) => {
+    e.preventDefault();
 
-      form.onsubmit = (e) => {
-        e.preventDefault();
+    const listItem = document.createElement('li');
+    const namePara = document.createElement('p');
+    const commentPara = document.createElement('p');
 
-        const listItem = document.createElement('li');
-        const namePara = document.createElement('p');
-        const commentPara = document.createElement('p');
+    const nameValue = nameField.value.trim();
+    const commentValue = commentField.value.trim();
 
-        const nameValue = nameField.value.trim();
-        const commentValue = commentField.value.trim();
+    if (!nameValue || !commentValue) {
+      if (message) {
+        message.textContent = 'All fields required';
+        message.className = 'error';
+      }
+      return;
+    }
 
-        if (!nameValue || !commentValue) {
-            if (message) {
-                message.textContent = "All fields required";
-                message.className = "error"
-            }
-            return
-        }
+    // escape form inputs to prevent HTML injections
+    namePara.textContent = escapeHTML(nameValue);
+    commentPara.textContent = escapeHTML(commentValue);
 
-        // escape form inputs to prevent HTML injections
-        namePara.textContent = escapeHTML(nameValue);
-        commentPara.textContent = escapeHTML(commentValue);
+    list.appendChild(listItem);
+    listItem.appendChild(namePara);
+    listItem.appendChild(commentPara);
 
-        list.appendChild(listItem);
-        listItem.appendChild(namePara);
-        listItem.appendChild(commentPara);
+    if (message) {
+      message.textContent = 'Comment posted!';
+      message.className = 'success';
+    }
 
-        if (message) {
-          message.textContent = "Comment posted!";
-          message.className = "success"
-        }
-
-        nameField.value = '';
-        commentField.value = '';
-      };
-}
+    nameField.value = '';
+    commentField.value = '';
+  };
+};
 
 const escapeHTML = (str: string) => {
-  return str
-  .replace(/[&<>"']/g, (char) => {
+  return str.replace(/[&<>"']/g, (char) => {
     const escapeChars: Record<'&' | '<' | '>' | '"' | "'", string> = {
       '&': '&amp;',
       '<': '&lt;',
@@ -83,6 +84,6 @@ const escapeHTML = (str: string) => {
     };
     return escapeChars[char as keyof typeof escapeChars];
   });
-}
+};
 
-export {toggleComments, commentForm}
+export { toggleComments, commentForm };
