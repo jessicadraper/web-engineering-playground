@@ -16,9 +16,7 @@ const search = () => {
         });
       }
 
-      const input = search.querySelector(
-        'input[name="q"]'
-      ) as HTMLInputElement | null;
+      const input = search.querySelector('input[name="q"]') as HTMLInputElement;
       const searchKey = input?.value.trim();
 
       const searchResults = [];

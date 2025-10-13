@@ -1,6 +1,6 @@
 // comments.js
 
-const toggleComments = () => {
+const toggleComments = (): void => {
   // Show/hide comments toggle
   const showHideBtn = document.querySelector('.show-hide');
   const commentWrapper = document.querySelector('.comment-wrapper');
@@ -19,7 +19,7 @@ const toggleComments = () => {
   };
 };
 
-const commentForm = () => {
+const commentForm = (): void => {
   // Comment form stuff
   const form = document.querySelector('.comment-form');
   const nameField = document.querySelector('#name');
@@ -47,7 +47,7 @@ const commentForm = () => {
     const nameValue = nameField.value.trim();
     const commentValue = commentField.value.trim();
 
-    if (!nameValue || !commentValue) {
+    if (!(nameValue ?? '') || !(commentValue ?? '')) {
       if (message) {
         message.textContent = 'All fields required';
         message.className = 'error';
@@ -73,7 +73,7 @@ const commentForm = () => {
   };
 };
 
-const escapeHTML = (str: string) => {
+const escapeHTML = (str: string): string => {
   return str.replace(/[&<>"']/g, (char) => {
     const escapeChars: Record<'&' | '<' | '>' | '"' | "'", string> = {
       '&': '&amp;',

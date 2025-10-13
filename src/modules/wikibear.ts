@@ -25,7 +25,7 @@ interface Bear {
 const wikibears = async () => {
   const extractBears = async (wikitext: string) => {
     const speciesTables = wikitext.split('{{Species table/end}}');
-    const bears: Array<Bear> = [];
+    const bears: Bear[] = [];
 
     for (const table of speciesTables) {
       const rows = table.split('{{Species table/row');
@@ -45,7 +45,7 @@ const wikibears = async () => {
 
         let imageUrl = PLACEHOLDER_IMAGE;
 
-        if (imageMatch && imageMatch[1]) {
+        if (imageMatch?.[1]) {
           const fileName = imageMatch[1].trim().replace('File:', '');
 
           // Fetch url and check if broken/available; otherwise placeholder
@@ -53,17 +53,17 @@ const wikibears = async () => {
             const fetchedImageUrl = await fetchImageUrl(fileName);
             imageUrl = await checkImageAvailability(fetchedImageUrl);
           } catch (error) {
-            console.log(error)
+            console.log(error);
             imageUrl = PLACEHOLDER_IMAGE; // placeholder image if fetch or check fails
           }
         }
 
         // Add bear to array
         const bear = {
-          name: name,
-          binomial: binomial,
+          name,
+          binomial,
           image: imageUrl,
-          range: range,
+          range,
         };
         bears.push(bear);
       }
@@ -71,7 +71,7 @@ const wikibears = async () => {
     return bears;
   };
 
-  const printBears = (bears: Array<Bear>) => {
+  const printBears = (bears: Bear[]) => {
     const moreBears = document.querySelector('.more_bears');
 
     // If no .more_bears HTML  element, do nothing
