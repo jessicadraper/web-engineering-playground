@@ -4,7 +4,7 @@ const toggleComments = () => {
     // Show/hide comments toggle
     const showHideBtn = document.querySelector('.show-hide');
     const commentWrapper = document.querySelector('.comment-wrapper');
-    if (!showHideBtn || !commentWrapper) return;
+    if (!(showHideBtn instanceof HTMLElement) || !(commentWrapper instanceof HTMLElement)) return;
 
     commentWrapper.style.display = 'none';
 
@@ -24,10 +24,16 @@ const commentForm = () => {
       const list = document.querySelector('.comment-container');
       const message = document.querySelector('#submitMessage');
 
-      if (!form || !nameField || !commentField || !list) {
-        console.warn("Comment form elements missing")
-        return;
-      }
+      if (
+        !(form instanceof HTMLElement) ||
+        !(nameField instanceof HTMLInputElement) ||
+        !(commentField instanceof HTMLInputElement) ||
+        !(list instanceof HTMLElement)
+        )
+        {
+          console.warn("Comment form elements missing")
+          return;
+        }
 
       form.onsubmit = (e) => {
         e.preventDefault();
@@ -55,25 +61,27 @@ const commentForm = () => {
         listItem.appendChild(namePara);
         listItem.appendChild(commentPara);
 
-        message.textContent = "Comment posted!";
-        message.className = "success"
+        if (message) {
+          message.textContent = "Comment posted!";
+          message.className = "success"
+        }
 
         nameField.value = '';
         commentField.value = '';
       };
 }
 
-const escapeHTML = (str) => {
+const escapeHTML = (str: string) => {
   return str
   .replace(/[&<>"']/g, (char) => {
-    const escapeChars = {
+    const escapeChars: Record<'&' | '<' | '>' | '"' | "'", string> = {
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
       "'": '&#039;',
     };
-    return escapeChars[char];
+    return escapeChars[char as keyof typeof escapeChars];
   });
 }
 
