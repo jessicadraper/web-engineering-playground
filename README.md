@@ -171,7 +171,8 @@ Build the application with `npm` and a build and a dependency management tool of
   - (2) Development Workflow should at least lint (optionally test) your code when developers push to a branch named `development`.
   - (3) Deployment Workflow is triggered when developers push into `production` branch. It should at least lint and build your source code. Afterwards the build artifacts of your application should be automatically deployed to Github Pages (or another hosting provider of your choice).
 
-> _Insert GitHub Pages URL here......_
+> _GitHub Pages URL:_
+> https://jessicadraper.github.io/web-engineering-playground/
 
 **ESLint Configurations**
 
