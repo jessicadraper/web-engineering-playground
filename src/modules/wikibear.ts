@@ -53,6 +53,7 @@ const wikibears = async () => {
             const fetchedImageUrl = await fetchImageUrl(fileName);
             imageUrl = await checkImageAvailability(fetchedImageUrl);
           } catch (error) {
+            console.log(error)
             imageUrl = PLACEHOLDER_IMAGE; // placeholder image if fetch or check fails
           }
         }

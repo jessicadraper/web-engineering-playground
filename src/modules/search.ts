@@ -102,7 +102,7 @@ const search = () => {
         }
 
         // If results already exist
-        let existing = document.getElementsByClassName('search-result')[0];
+        const existing = document.getElementsByClassName('search-result')[0];
         if (existing) {
           existing.textContent = resultsMessage;
           return;
