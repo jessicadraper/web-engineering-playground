@@ -47,8 +47,13 @@ const commentForm = (): void => {
     const nameValue = nameField.value.trim();
     const commentValue = commentField.value.trim();
 
-    if (!(nameValue ?? '') || !(commentValue ?? '')) {
-      if (message) {
+    if (
+      nameValue == null ||
+      nameValue === '' ||
+      commentValue == null ||
+      commentValue === ''
+    ) {
+      if (message instanceof HTMLElement) {
         message.textContent = 'All fields required';
         message.className = 'error';
       }
@@ -63,7 +68,7 @@ const commentForm = (): void => {
     listItem.appendChild(namePara);
     listItem.appendChild(commentPara);
 
-    if (message) {
+    if (message instanceof HTMLElement) {
       message.textContent = 'Comment posted!';
       message.className = 'success';
     }

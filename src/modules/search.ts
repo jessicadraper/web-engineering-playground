@@ -1,6 +1,6 @@
 // search.js
 
-const search = () => {
+const search = (): void => {
   // Search highlighter
   const search = document.querySelector('.search');
   if (search instanceof HTMLFormElement) {
@@ -16,11 +16,13 @@ const search = () => {
         });
       }
 
-      const input = search.querySelector('input[name="q"]') as HTMLInputElement;
+      const input = search.querySelector('input[name="q"]');
+      if (!(input instanceof HTMLFormElement)) return;
+
       const searchKey = input?.value.trim();
 
       const searchResults = [];
-      if (!searchKey) return;
+      if (searchKey == null || searchKey === '') return;
 
       const articles = document.getElementsByTagName('ARTICLE');
 
@@ -29,8 +31,8 @@ const search = () => {
         'gi'
       );
 
-      const walk = (node: Node) => {
-        if (node.nodeType == Node.TEXT_NODE && node.nodeValue) {
+      const walk = (node: Node): void => {
+        if (node.nodeType === Node.TEXT_NODE && node.nodeValue != null) {
           // Text node
           const text = node.nodeValue;
           const matches = [...text.matchAll(regex)];
@@ -42,13 +44,13 @@ const search = () => {
             let lastIndex = 0;
 
             for (const match of matches) {
-              if (match[1]) {
+              if (match[1] != null) {
                 const matchText = match[1];
                 const index = match.index;
 
                 // Add text before match
                 const before = text.slice(lastIndex, index);
-                if (before) {
+                if (before != null && before !== '') {
                   fragment.appendChild(document.createTextNode(before));
                 }
 
@@ -64,13 +66,13 @@ const search = () => {
 
             // Add remaining text after last match
             const after = text.slice(lastIndex);
-            if (after) {
+            if (after != null && after !== '') {
               fragment.appendChild(document.createTextNode(after));
             }
 
             node.parentNode?.replaceChild(fragment, node);
           }
-        } else if (node.nodeType == Node.ELEMENT_NODE) {
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
           const element = node as HTMLElement;
 
           // Don't search certain elements
@@ -87,7 +89,7 @@ const search = () => {
         Array.from(articles).forEach(walk);
       }
 
-      const showResultsMessage = () => {
+      const showResultsMessage = (): void => {
         let resultsMessage;
         const numResults = searchResults.length;
 
@@ -101,7 +103,7 @@ const search = () => {
 
         // If results already exist
         const existing = document.getElementsByClassName('search-result')[0];
-        if (existing) {
+        if (existing != null) {
           existing.textContent = resultsMessage;
           return;
         }

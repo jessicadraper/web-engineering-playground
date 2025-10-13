@@ -22,8 +22,8 @@ interface Bear {
 }
 
 // Fetching bear data
-const wikibears = async () => {
-  const extractBears = async (wikitext: string) => {
+const wikibears = async (): Promise<void> => {
+  const extractBears = async (wikitext: string): Promise<Bear[]> => {
     const speciesTables = wikitext.split('{{Species table/end}}');
     const bears: Bear[] = [];
 
@@ -37,7 +37,8 @@ const wikibears = async () => {
         const rangeMatch = row.match(/\|range=(.*?)\|/);
 
         // Skip if required data is missing
-        if (!nameMatch || !binomialMatch || !rangeMatch) continue;
+        if (nameMatch == null || binomialMatch == null || rangeMatch == null)
+          continue;
 
         const name = nameMatch?.[1] ?? 'Unknown';
         const binomial = binomialMatch?.[1] ?? 'Unknown';
@@ -45,7 +46,7 @@ const wikibears = async () => {
 
         let imageUrl = PLACEHOLDER_IMAGE;
 
-        if (imageMatch?.[1]) {
+        if (imageMatch?.[1] != null) {
           const fileName = imageMatch[1].trim().replace('File:', '');
 
           // Fetch url and check if broken/available; otherwise placeholder
@@ -71,16 +72,16 @@ const wikibears = async () => {
     return bears;
   };
 
-  const printBears = (bears: Bear[]) => {
+  const printBears = (bears: Bear[]): void => {
     const moreBears = document.querySelector('.more_bears');
 
     // If no .more_bears HTML  element, do nothing
-    if (!moreBears) {
+    if (moreBears == null || moreBears === undefined) {
       return;
     }
 
     // If no bears content, display error
-    if (bears.length == 0) {
+    if (bears.length === 0) {
       moreBears.innerHTML =
         '<div class="error">There is an issue loading more bear content. Please contact site administrator.</div>';
       return;
@@ -114,20 +115,23 @@ const wikibears = async () => {
     return bearDiv;
   };
 
-  const getAndPrintBears = async (params: Record<string, string>) => {
+  const getAndPrintBears = async (
+    params: Record<string, string>
+  ): Promise<void> => {
     try {
       const url = baseUrl + '?' + new URLSearchParams(params).toString();
       const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch bear data from Wikipedia');
 
       const data = await res.json();
-      const wikitext = data?.parse?.wikitext?.['*'];
-      if (!wikitext) throw new Error('Issue with returned format of bear data');
+      const wikitext: string = data?.parse?.wikitext?.['*'];
+      if (wikitext == null || wikitext === undefined)
+        throw new Error('Issue with returned format of bear data');
 
       console.log('Getting bears...');
-      const bears = await extractBears(wikitext);
+      const bears: Bear[] = await extractBears(wikitext);
 
-      if (bears) {
+      if (bears != null || bears !== undefined) {
         console.log('Bears loaded!');
         printBears(bears);
       }
@@ -140,7 +144,7 @@ const wikibears = async () => {
   await getAndPrintBears(params);
 };
 
-const fetchImageUrl = async (fileName: string) => {
+const fetchImageUrl = async (fileName: string): Promise<string> => {
   const imageParams = {
     action: 'query',
     titles: 'File:' + fileName,
@@ -154,11 +158,13 @@ const fetchImageUrl = async (fileName: string) => {
 
   try {
     const res = await fetch(url);
-    const data = await res.json();
+    const rawData = (await res.json()) as {
+      query?: { pages?: Record<string, unknown> };
+    };
 
-    const pages = Object.values(data?.query?.pages || {});
-    const page = pages.length > 0 ? (pages[0] as any) : null;
-    const imageUrl = page?.imageinfo?.[0]?.url || PLACEHOLDER_IMAGE;
+    const pages = Object.values(rawData.query?.pages ?? {});
+    const page = pages.length > 0 ? pages[0] : null;
+    const imageUrl = page?.imageinfo?.[0]?.url ?? PLACEHOLDER_IMAGE;
     return imageUrl;
   } catch (e) {
     console.log(e);
@@ -166,7 +172,7 @@ const fetchImageUrl = async (fileName: string) => {
   }
 };
 
-const checkImageAvailability = async (url: string) => {
+const checkImageAvailability = async (url: string): Promise<string> => {
   try {
     const response = await fetch(url, { method: 'GET' });
     if (response.ok) {
