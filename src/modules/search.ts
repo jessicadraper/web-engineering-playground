@@ -17,7 +17,7 @@ const search = (): void => {
       }
 
       const input = search.querySelector('input[name="q"]');
-      if (!(input instanceof HTMLFormElement)) return;
+      if (!(input instanceof HTMLInputElement)) return;
 
       const searchKey = input?.value.trim();
 
