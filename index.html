@@ -8,7 +8,10 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link rel="stylesheet" href="style.css" />
+    <script type="module">
+      import './styles.scss';
+    </script>
+
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -28,35 +31,35 @@
         Beautiful HTML markup
     -->
 
-    <div class="header">
-      <font size="7">Welcome to our wildlife website</font>
-    </div>
+    <header>
+      <div>
+        <h1>Welcome to our wildlife website</h1>
+      </div>
 
-    <div class="nav">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Our team</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="#">Blog</a></li>
-      </ul>
+      <nav class="nav">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Our team</a></li>
+          <li><a href="#">Projects</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
 
-      <form class="search">
-        <input type="search" name="q" placeholder="Search query" />
-        <input type="submit" value="Go!" />
-      </form>
-    </div>
+        <form class="search">
+          <input type="search" name="q" placeholder="Search query" />
+          <input type="submit" value="Go!" />
+        </form>
+      </nav>
+    </header>
 
     <main>
       <article>
-        <font size="6">The trouble with Bears</font>
-        <br /><br />
-        By Evan Wild
-        <br /><br />
+        <h2>The trouble with Bears</h2>
+        <p>By Evan Wild</p>
+        <p>
         Tall, lumbering, angry, dangerous. The real live bears of this world are
         proud, independent creatures, self-serving and always on the hunt for
-        food.
-        <br /><br />
-        <font size="5">Types of bear</font>
+        food.</p>
+        <h3>Types of bear</h3>
         <br /><br />
         <table>
           <thead>
