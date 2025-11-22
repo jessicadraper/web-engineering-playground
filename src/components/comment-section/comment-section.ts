@@ -6,7 +6,7 @@ const template = document.createElement('template');
 template.innerHTML = `
   <style>${styles}</style>
   <section class="comments">
-    <div class="show-hide">Show comments</div>
+    <button type="button" class="show-hide">Show comments</button>
 
     <div class="comment-wrapper">
       <h3>Add comment</h3>
@@ -32,7 +32,7 @@ template.innerHTML = `
           />
         </div>
         <div>
-          <p id="submitMessage"></p>
+          <p id="submitMessage" aria-live="polite"></p>
           <input type="submit" value="Submit comment" />
         </div>
       </form>
@@ -106,6 +106,11 @@ class CommentsElement extends HTMLElement {
 
       form.onsubmit = (e) => {
         e.preventDefault();
+
+        if (message instanceof HTMLElement) {
+          message.textContent = '';
+          message.className = '';
+        }
 
         const listItem = document.createElement('li');
         const namePara = document.createElement('p');

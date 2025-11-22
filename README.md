@@ -223,7 +223,33 @@ Additionally, refactor your project by encapsulating the comments section into a
 
 - (6) Create a web component for the "Add comment" section. Use te shadow DOM and <code>template</code> syntax to encapsulate all related styles inside the component.
 
-> _Present your findings here..._
+> #### Color
+>
+> There were 20 color contrast errors found using the WAVE Evaluation Tool. White text on the light blue background was an issue, black text on the green background was an issue, and the blue link text on the green background was an issue. The green background was changed to a lighter green that passes the WCAG AAA test using black text. The light blue color was replaced with white for simplicity and the header text (with a drop shadow) was changed to black.
+>
+> ![alt text](accessibility_analysis/Color_Contrast_Report.png 'Color Contrast Results')
+>
+> #### Semantic HTML
+>
+> The screen reader was able to navigate through most of the content, but it is not very descriptive and a bit disorienting since the HTML document lacked structure. It was not possible to navigate using headings since those elements were not present. Some landmarks were present to navigate by, but they were not very useful. It would be difficult for someone to know where exactly they are in the page and the "level"/importance of the content being read to them. By adding landmarks (e.g. header, nav) and updating all divs and spans to proper heading or paragraph elements, this helps to more easily navigate the page by section or heading.
+>
+> ![alt text](accessibility_analysis/SemanticHTMLAfter.png 'Semantic HTML')
+>
+> #### Audio
+>
+> No transcript of the audio was present for the screen reader to read, so it was added manually underneath the audio player using "aria-describedby" to connect the audio to the transcript div.
+>
+> #### Forms
+>
+> None of the forms/inputs on the page included proper labels. This made it hard for the screen reader to describe what the user should do or provide for the input. Visible and non-visible labels were added to help with this (non-visible used a CSS class "visuallyhidden" to set the visibility to "hidden"). They were associated with their corresponding inputs by using "label for" atrribute within the input element. Results of the form submissions were also set to be read by screen readers using `aria-live="polite"` and the search results were given a screen-reader only "Match" text on highlighted text to help users find where the search results are within the page.
+>
+> #### Comment Section
+>
+> To make the show/hide comment control button keyboard accessible, it was updated to use `<button>` instead of a div to make use of the focusable button features.
+>
+> #### Table
+>
+> For better use with a screen reader, a `<caption>` was added and the table heading was made clear using `<thead>` and `<th scope="col">` for each header cell to let the screen reader know this is a header to repeat for each cell it reads out.
 
 ## 4. Migrate to a Frontend Framework
 

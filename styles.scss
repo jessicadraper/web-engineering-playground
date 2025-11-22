@@ -12,13 +12,18 @@
   --color-success: green;
 
   --font-main: 'Open Sans', sans-serif;
-  --font-heading: 'Open Sans Condensed', sans-serif;
+  --font-heading: 'Open Sans', sans-serif;
 
   --font-size-lg: 3rem;
   --font-size-md: 2rem;
   --font-size-sm: 1.5rem;
   --font-size-base: 16px;
   --line-height-base: 1.5;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
 }
 
 // || Base styles
@@ -43,16 +48,19 @@ h1 {
   font-family: var(--font-heading);
   font-size: var(--font-size-lg);
   color: var(--color-text-main);
+  font-weight: var(--font-weight-light);
 }
 
 h2 {
   font-family: var(--font-heading);
   font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
 }
 
 h3 {
   font-family: var(--font-heading);
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
 }
 
 p,
@@ -136,6 +144,26 @@ table {
   }
 }
 
+.highlight {
+  background-color: yellow;
+  color: black;
+}
+
+.highlight::before {
+  content: 'Match: ';
+
+  // sr only
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* Prevent line breaks */
+  border: 0;
+}
+
 // || Layout
 main {
   display: flex;
@@ -148,7 +176,7 @@ article {
   margin-right: 10px;
 }
 
-.secondary {
+aside {
   flex: 2;
   background-color: var(--color-bg-header);
   padding: 10px 30px;
