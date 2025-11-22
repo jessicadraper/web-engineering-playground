@@ -98,7 +98,7 @@ const wikibears = async (): Promise<void> => {
 
     const img = document.createElement('img');
     img.src = bear.image;
-    img.alt = `Image of ${bear.name}`;
+    img.alt = ``;
     img.style.width = '200px';
     img.style.height = 'auto';
 
