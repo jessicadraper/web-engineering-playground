@@ -25,3 +25,7 @@ build
 *.sw?
 
 coverage
+
+.vite/*
+
+package-lock.json
