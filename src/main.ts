@@ -1,13 +1,9 @@
-import { search } from './modules/search.js';
-import { wikibears } from './modules/wikibear.js';
-import './components/comment-section/comment-section.js';
+import { mount } from 'svelte';
+import App from '../App.svelte';
 
-const init = async (): Promise<void> => {
-  // Fetch bear data
-  await wikibears();
-
-  // Initialize search functionality
-  search();
-};
-
-await init();
+const app = document.getElementById('app');
+if (app != null) {
+  mount(App, {
+    target: app,
+  });
+}

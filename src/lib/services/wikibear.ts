@@ -1,4 +1,4 @@
-// wikibears.js
+// wikibears.ts
 
 const PLACEHOLDER_IMAGE = '/media/bear-placeholder.jpg';
 
@@ -22,7 +22,7 @@ interface Bear {
 }
 
 // Fetching bear data
-const wikibears = async (): Promise<void> => {
+const wikibears = async (): Promise<Bear[]> => {
   const extractBears = async (wikitext: string): Promise<Bear[]> => {
     const speciesTables = wikitext.split('{{Species table/end}}');
     const bears: Bear[] = [];
@@ -72,52 +72,7 @@ const wikibears = async (): Promise<void> => {
     return bears;
   };
 
-  const printBears = (bears: Bear[]): void => {
-    const moreBears = document.querySelector('.more_bears');
-
-    // If no .more_bears HTML  element, do nothing
-    if (moreBears == null || moreBears === undefined) {
-      return;
-    }
-
-    // If no bears content, display error
-    if (bears.length === 0) {
-      moreBears.innerHTML =
-        '<div class="error">There is an issue loading more bear content. Please contact site administrator.</div>';
-      return;
-    }
-
-    bears.forEach((bear) => {
-      moreBears.appendChild(renderBear(bear));
-    });
-  };
-
-  const renderBear = (bear: Bear): HTMLElement => {
-    const bearDiv = document.createElement('div');
-    bearDiv.className = 'bear';
-
-    const img = document.createElement('img');
-    img.src = bear.image;
-    img.alt = ``;
-    img.style.width = '200px';
-    img.style.height = 'auto';
-
-    const namePara = document.createElement('p');
-    namePara.innerHTML = `<b>${bear.name}</b> (${bear.binomial})`;
-
-    const rangePara = document.createElement('p');
-    rangePara.textContent = `Range: ${bear.range}`;
-
-    bearDiv.appendChild(img);
-    bearDiv.appendChild(namePara);
-    bearDiv.appendChild(rangePara);
-
-    return bearDiv;
-  };
-
-  const getAndPrintBears = async (
-    params: Record<string, string>
-  ): Promise<void> => {
+  const getBears = async (params: Record<string, string>): Promise<Bear[]> => {
     try {
       const url = baseUrl + '?' + new URLSearchParams(params).toString();
       const res = await fetch(url);
@@ -133,17 +88,21 @@ const wikibears = async (): Promise<void> => {
 
       if (bears != null || bears !== undefined) {
         console.log('Bears loaded!');
-        printBears(bears);
+        console.log(bears);
+        return bears;
       }
     } catch (error) {
       console.error('Error loading bears: ', error);
-      printBears([]);
+      // printBears([]);
     }
+    return [];
   };
 
-  await getAndPrintBears(params);
+  // return array of fetched bears
+  return await getBears(params);
 };
 
+// helper functions for fetching bears
 const fetchImageUrl = async (fileName: string): Promise<string> => {
   const imageParams = {
     action: 'query',

@@ -263,6 +263,13 @@ In this playground you will migrate your application to a frontend framework of 
   - Make use of provided framework features for a clean project structure like components, templates, state,...
 - Adapt your `npm scripts` if necessary.
 
+Notes (Core Svelte 5):
+
+1. Added Svelte plugin: `npm install --save-dev @sveltejs/vite-plugin-svelte svelte`
+2. Updated `vite.config.json`
+3. Updated project structure with `src/lib/` for services (APIs), components, data (for article data as structured object), and utils (for highlighting search results) as well as a store to handle the search query and making it available to all
+4. Added `App.svelte` as root for adding components which is mounted in `main.ts` to `index.html`
+
 ## 5. Integrate a Backend Framework
 
 In this playground you will use a backend framework of your choice and connect it over an API to your frontend application. Additionally, you will dockerize your frontend and backend applications. It should be possible to start all services in the corresponding mode (development, production) with a single command (e.g. use Docker Compose for this).
