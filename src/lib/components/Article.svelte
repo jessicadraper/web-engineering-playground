@@ -5,32 +5,34 @@
   import { getHighlightedParts } from '../utils/highlight'
   import Table from './Table.svelte'
   import AboutAuthor from './AboutAuthor.svelte'
-  import CommentSection from './CommentSection.svelte'
+  // import CommentSection from './CommentSection.svelte'
+  import Comments from './Comments.svelte'
+  import { Heading, P } from "flowbite-svelte";
 
 </script>
 
-<article role="article">
+<article role="article" class="w-full bg-white p-10 rounded-xl shadow-xl">
   {#each articleContent as block}
     {#if block.type === 'p'}
-      <p>
+      <P class="mb-5 {block.styles}">
         {#each getHighlightedParts(block.text, $searchQuery) as part}
           {#if part.highlight}<mark class="highlight">{part.text}</mark>{:else}{part.text}{/if}
         {/each}
-      </p>
+      </P>
     {:else if block.type === 'h2'}
-      <h2>
+      <Heading tag='h2' class='mb-5 text-emerald-900 {block.styles}'>
         {#each getHighlightedParts(block.text, $searchQuery) as part}
           {#if part.highlight}<mark class="highlight">{part.text}</mark>{:else}{part.text}{/if}
         {/each}
-      </h2>
+      </Heading>
     {:else if block.type === 'h3'}
-      <h3>
+      <Heading tag='h3' class='mt-8 mb-5 font-medium {block.styles}'>
         {#each getHighlightedParts(block.text, $searchQuery) as part}
           {#if part.highlight}<mark class="highlight">{part.text}</mark>{:else}{part.text}{/if}
         {/each}
-      </h3>
+      </Heading>
     {:else if block.type === 'img'}
-      <img src={block.src} alt={block.alt}>
+      <img src={block.src} alt={block.alt} class="rounded-xl mb-4 {block.styles}">
     {:else if block.type === 'table'}
       <Table header={block.header} data={block.data}></Table>
     {:else if block.type === 'component'}
@@ -39,5 +41,5 @@
       <AboutAuthor bio={block.text}></AboutAuthor>
     {/if}
   {/each}
-  <CommentSection></CommentSection>
+  <Comments></Comments>
 </article>

@@ -7,8 +7,8 @@ export function escapeRegExp(str: string): string {
 export function getHighlightedParts(
   text: string,
   query: string | null
-): Array<Record<string, unknown>> {
-  if (query == null) return [{ text, highlight: false }];
+): Array<Record<string, boolean>> {
+  if (query == null || query === '') return [{ text, highlight: false }];
   const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
   const parts = text.split(regex);
   return parts.map((part) => ({ text: part, highlight: regex.test(part) }));

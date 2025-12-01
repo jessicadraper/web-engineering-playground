@@ -1,9 +1,9 @@
 <script lang="ts">
   import { searchQuery } from '../../stores/search'
   import { writable } from 'svelte/store'
+  import { Button, Input, Label, Helper } from "flowbite-svelte";
 
   let searchInput = '';
-  let resultsMessage = '';
 
   const handleSearch = (e: Event) => {
     e.preventDefault();
@@ -14,17 +14,16 @@
 </script>
 
 <form class="search" role="search" on:submit={handleSearch}>
-  <label for="search" class="visuallyhidden">Search</label>
-  <input
-    id="search"
-    type="search"
-    bind:value={searchInput}
-    name="q"
-    placeholder="Search query"
-    aria-label="Search through site content"
-  />
-  <input type="submit" value="Search" />
-  {#if resultsMessage}
-    <div class="search-result" aria-live="polite">{resultsMessage}</div>
-  {/if}
+  <div class="flex flex-row items-center gap-3">
+    <Label for="search" class="hidden">Search</Label>
+    <Input
+      id="search"
+      type="search"
+      bind:value={searchInput}
+      name="q"
+      placeholder="Search content"
+      aria-label="Search through site content"
+    />
+    <Button pill type="submit" color="amber">Search</Button>
+  </div>
 </form>

@@ -1,40 +1,39 @@
 <script lang="ts">
   import { searchQuery } from '../../stores/search'
   import { getHighlightedParts } from '../utils/highlight'
+  import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell  } from "flowbite-svelte";
 
   export let caption;
   export let header;
   export let data;
 </script>
 
-<table>
+<Table>
   <caption>
     {caption}
   </caption>
   {#if header}
-    <thead>
-      <tr>
+    <TableHead>
         {#each header as columnName}
-          <th scope="col">
+          <TableHeadCell>
             {#each getHighlightedParts(columnName, $searchQuery) as part}
               {#if part.highlight}<mark>{part.text}</mark>{:else}{part.text}{/if}
             {/each}
-          </th>
+          </TableHeadCell>
         {/each}
-      </tr>
-    </thead>
+    </TableHead>
   {/if}
-  <tbody>
+  <TableBody>
     {#each data as row}
-      <tr>
+      <TableBodyRow class="border-stone-200">
         {#each row as cellValue}
-          <td>
+          <TableBodyCell>
             {#each getHighlightedParts(cellValue, $searchQuery) as part}
               {#if part.highlight}<mark>{part.text}</mark>{:else}{part.text}{/if}
             {/each}
-          </td>
+          </TableBodyCell>
         {/each}
-      </tr>
+      </TableBodyRow>
     {/each}
-  </tbody>
-</table>
+  </TableBody>
+</Table>

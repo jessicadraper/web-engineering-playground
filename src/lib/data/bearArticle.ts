@@ -3,7 +3,12 @@ import BearList from '../components/BearList.svelte';
 
 export const bearArticleContent = [
   { type: 'h2', text: 'The Trouble with Bears' },
-  { type: 'p', text: 'By Evan Wild' },
+  {
+    type: 'p',
+    text: 'By Evan Wild',
+    styles:
+      'border-b border-t border-stone-100 py-2 text-lg text-stone-500 mb-8',
+  },
   {
     type: 'p',
     text: 'Tall, lumbering, angry, dangerous. The real live bears of this world are proud, independent creatures, self-serving and always on the hunt for food.',

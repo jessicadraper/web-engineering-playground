@@ -1,6 +1,17 @@
-<ul>
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Our team</a></li>
-  <li><a href="#">Projects</a></li>
-  <li><a href="#">Blog</a></li>
-</ul>
+<script lang="ts">
+  import Search from './Search.svelte'
+  import { Navbar, NavBrand, NavLi, NavUl, NavHamburger } from "flowbite-svelte";
+</script>
+
+<Navbar class="bg-white shadow">
+  <NavBrand class="font-semibold text-xl text-emerald-800">The Wild Life</NavBrand>
+  <NavUl>
+    <NavLi href="#">Home</NavLi>
+    <NavLi href="#">Our Team</NavLi>
+    <NavLi href="#">Projects</NavLi>
+    <NavLi href="#">Blog</NavLi>
+  </NavUl>
+  <Search></Search>
+  <NavHamburger></NavHamburger>
+</Navbar>
+

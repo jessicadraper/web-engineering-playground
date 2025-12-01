@@ -1,18 +1,14 @@
 <script lang="ts">
   import Navigation from './Navigation.svelte'
-  import Search from './Search.svelte'
+  import { Heading, Span } from "flowbite-svelte";
 
   export let title: string; // declare title prop
 
 </script>
 
 <header>
-  <div>
-    <h1>{title}</h1>
+  <Navigation></Navigation>
+  <div class="my-15 text-center">
+    <Heading tag='h1'><Span gradient="tealToLime">{title}</Span></Heading>
   </div>
-
-  <nav class="nav">
-    <Navigation></Navigation>
-    <Search></Search>
-  </nav>
 </header>
