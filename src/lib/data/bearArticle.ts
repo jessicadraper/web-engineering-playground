@@ -16,6 +16,7 @@ export const bearArticleContent = [
   { type: 'h3', text: 'Types of Bears' },
   {
     type: 'table',
+    caption: 'Comparison table between wild and urban bears',
     header: ['Bear Type', 'Coat', 'Adult size', 'Habitat', 'Lifespan', 'Diet'],
     data: [
       [
@@ -43,7 +44,7 @@ export const bearArticleContent = [
   },
   {
     type: 'img',
-    src: 'media/wild-bear.jpg',
+    src: '/web-engineering-playground/media/wild-bear.jpg',
     alt: 'Wild bear in forest',
   },
   {
@@ -52,7 +53,7 @@ export const bearArticleContent = [
   },
   {
     type: 'img',
-    src: 'media/urban-bear.jpg',
+    src: '/web-engineering-playground/media/urban-bear.jpg',
     alt: 'Urban bear near buildings',
   },
   {
@@ -63,11 +64,26 @@ export const bearArticleContent = [
     type: 'p',
     text: 'Bears are romantic creatures by nature...',
   },
+  {
+    type: 'audio',
+    sources: [
+      {
+        src: '/web-engineering-playground/media/bear.mp3',
+        type: 'audio/mp3',
+      },
+      {
+        src: '/web-engineering-playground/media/bear.ogg',
+        type: 'audio/ogg',
+      },
+    ],
+    fallback: "It looks like your browser doesn't support HTML5 audio players.",
+    transcriptDiv: 'bear-audio-transcript',
+    transcriptText:
+      "This isn't really an audio fact file about bears, but it is an audio file you can transcribe.",
+  },
   { type: 'component', component: BearList },
   {
     type: 'bio',
     text: 'Evan Wild is an unemployed plumber from Doncaster...',
   },
-  // { type: 'component', component: AboutAuthor },
-  // { type: 'component', component: CommentSection },
 ];

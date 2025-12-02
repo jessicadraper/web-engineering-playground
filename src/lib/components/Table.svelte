@@ -9,7 +9,7 @@
 </script>
 
 <Table>
-  <caption>
+  <caption class="pb-3 text-left">
     {caption}
   </caption>
   {#if header}

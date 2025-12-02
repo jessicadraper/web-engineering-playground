@@ -33,8 +33,23 @@
       </Heading>
     {:else if block.type === 'img'}
       <img src={block.src} alt={block.alt} class="rounded-xl mb-4 {block.styles}">
+    {:else if block.type === 'audio'}
+      <div class="flex flex-row gap-6 my-8">
+        <audio controls aria-describedby={block.transcriptDiv}>
+          {#each block.sources as s}
+            <source src={s.src} type={s.type}/>
+          {/each}
+          <p>{block.fallback}</p>
+        </audio>
+        <div id={block.transcriptDiv} class="p-4 border border-stone-200 rounded-lg">
+          <p><strong>Audio Transcript</strong></p>
+          <p>
+            <em>{block.transcriptText}</em>
+          </p>
+        </div>
+      </div>
     {:else if block.type === 'table'}
-      <Table header={block.header} data={block.data}></Table>
+      <Table header={block.header} data={block.data} caption={block.caption}></Table>
     {:else if block.type === 'component'}
       <svelte:component this={block.component} />
     {:else if block.type === 'bio'}

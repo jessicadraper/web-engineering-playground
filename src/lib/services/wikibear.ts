@@ -1,6 +1,7 @@
 // wikibears.ts
 
-const PLACEHOLDER_IMAGE = '/media/bear-placeholder.jpg';
+const PLACEHOLDER_IMAGE =
+  '/web-engineering-playground/media/bear-placeholder.jpg';
 
 const baseUrl = 'https://en.wikipedia.org/w/api.php';
 const title = 'List_of_ursids';

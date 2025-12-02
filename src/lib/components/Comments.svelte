@@ -49,7 +49,7 @@
 
   {#if show}
     <div class="comment-wrapper">
-      <Heading tag='h4'>Add comment</Heading>
+      <Heading tag='h3'>Add comment</Heading>
       <form class="comment-form mb-7" on:submit={addComment}>
         <div class="my-3">
           <Label for="name">Your name</Label>
@@ -84,7 +84,12 @@
       </form>
 
       <Heading tag='h3' class="mb-5">Comments</Heading>
-      <Table data={comments}></Table>
+      {#each comments as comment}
+        <div class="flex flex-row border border-stone-200 mb-3 rounded-md">
+          <p class="w-48 font-semibold text-slate-600 p-3">{comment[0]}</p>
+          <p class="text-slate-600 p-3">{comment[1]}</p>
+        </div>
+      {/each}
     </div>
   {/if}
 </section>
