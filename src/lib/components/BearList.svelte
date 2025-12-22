@@ -5,11 +5,16 @@
   import { getHighlightedParts } from '../utils/highlight'
 
   import { Heading, Card, Spinner } from "flowbite-svelte";
+  import { onMount } from 'svelte';
 
   // Fetch bear data
   let bears = $state([]);
   let loading = $state(true);
-  $effect(async () => {
+  // $effect(async () => {
+  //   bears = await wikibears();
+  //   loading = false;
+  // });
+  onMount(async () => {
     bears = await wikibears();
     loading = false;
   });
