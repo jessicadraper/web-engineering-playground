@@ -7,9 +7,11 @@ interface Bear {
   range: string;
 }
 
+const API_BASE = import.meta.env.VITE_API_URL;
+
 const wikibears = async (): Promise<Bear[]> => {
   try {
-    const res = await fetch('http://localhost:3001/api/bears');
+    const res = await fetch(`${API_BASE}/bears`);
     if (!res.ok) throw new Error('Failed to fetch bears');
 
     const data = await res.json();

@@ -3,6 +3,11 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  base: '/web-engineering-playground/', // For GitHub Pages
+  base: '/', //'web-engineering-playground/', // For GitHub Pages
   plugins: [svelte(), tailwindcss()],
+  server: {
+    host: true,
+    port: 5173,
+    strictPort: true,
+  },
 });

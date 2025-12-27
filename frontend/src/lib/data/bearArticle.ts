@@ -44,7 +44,7 @@ export const bearArticleContent = [
   },
   {
     type: 'img',
-    src: '/web-engineering-playground/media/wild-bear.jpg',
+    src: '/media/wild-bear.jpg',
     alt: 'Wild bear in forest',
   },
   {
@@ -53,7 +53,7 @@ export const bearArticleContent = [
   },
   {
     type: 'img',
-    src: '/web-engineering-playground/media/urban-bear.jpg',
+    src: '/media/urban-bear.jpg',
     alt: 'Urban bear near buildings',
   },
   {
@@ -68,11 +68,11 @@ export const bearArticleContent = [
     type: 'audio',
     sources: [
       {
-        src: '/web-engineering-playground/media/bear.mp3',
+        src: '/media/bear.mp3',
         type: 'audio/mp3',
       },
       {
-        src: '/web-engineering-playground/media/bear.ogg',
+        src: '/media/bear.ogg',
         type: 'audio/ogg',
       },
     ],

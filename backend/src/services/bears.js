@@ -13,21 +13,20 @@ export async function getBears() {
   };
 
   const url = `${WIKI_BASE_URL}?${new URLSearchParams(params)}`;
-  console.log("Calling endpoint: " + url);
+  console.log("Fetching Bear data from Wikipedia...");
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch wikitext");
 
   const data = await res.json();
   const wikitext = data?.parse?.wikitext?.["*"];
-  // console.log(`Wikitext: \n${wikitext}`);
   if (!wikitext) throw new Error("Invalid wikitext");
 
   return extractBears(wikitext);
 }
 
 async function extractBears(wikitext) {
+  console.log("Extracting bear data from response...");
   const speciesTables = wikitext.split("{{Species table/end}}");
-  // console.log(`Species: \n${speciesTables}`);
   let bears = [];
 
   for (const table of speciesTables) {
@@ -69,10 +68,10 @@ async function extractBears(wikitext) {
         image: imageUrl,
         range,
       };
-      // console.log(`ADDING BEAR: \n${bear.name}`);
       bears.push(bear);
     }
   }
+  console.log("Returning completed bears array!");
   return bears;
 }
 
