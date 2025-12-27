@@ -1,5 +1,6 @@
 <script lang="ts">
   import { wikibears } from '../services/wikibear.js'
+  import type { Bear } from '../services/wikibear.js'
   
   import { searchQuery } from '../../stores/search'
   import { getHighlightedParts } from '../utils/highlight'
@@ -8,12 +9,9 @@
   import { onMount } from 'svelte';
 
   // Fetch bear data
-  let bears = $state([]);
+  let bears: Bear[] = $state([]);
   let loading = $state(true);
-  // $effect(async () => {
-  //   bears = await wikibears();
-  //   loading = false;
-  // });
+
   onMount(async () => {
     bears = await wikibears();
     loading = false;
